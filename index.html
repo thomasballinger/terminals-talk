@@ -41,337 +41,454 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h1>Reveal.js</h1>
-					<h3>The HTML Presentation Framework</h3>
+					<h1>Terminal Whispering</h1>
+					<p>Do more than print text with your terminal</p>
+                    <p>
+                        A PyCon preview! Which means it's not done yet(:
+                    </p>
 					<p>
-						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
+						<small><a href="http://ballingt.com">Thomas Ballinger</a> / <a href="http://twitter.com/ballingt">@ballingt</a></small>
 					</p>
 				</section>
 
 				<section>
-					<h2>Hello There</h2>
-					<p>
-						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
-					</p>
-				</section>
+                    <section>
+                        <h2>What are terminals?</h2>
+                      <aside class="notes">
+                        Well, we're usually talking about terminal emulators
+                      </aside>
+                    </section>
+                    <section data-background="wordcloud.png">
+                      <aside class="notes">
+                        Don't worry, you're not at the wrong talk
+                        that word has lots of meanings though
+                        Wordcloud credit: https://www.jasondavies.com/wordcloud
+                      </aside>
+                    </section>
+                    <section data-background="single-terminal.png">
+                      <aside class="notes">
+                        When I say "terminal", I'm usually talking about a terminal emulator.
+                        It pretends to be the thing an application thinks it's talking to.
 
-				<!-- Example of nested vertical slides -->
-				<section>
-					<section>
-						<h2>Vertical Slides</h2>
-						<p>Slides can be nested inside of each other.</p>
-						<p>Use the <em>Space</em> key to navigate through all slides.</p>
-						<br>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 1</h2>
-						<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
-					</section>
-					<section>
-						<h2>Basement Level 2</h2>
-						<p>That's it, time to go back up.</p>
-						<br>
-						<a href="#/2">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="-webkit-transform: rotate(180deg);">
-						</a>
-					</section>
-				</section>
+                        What is it that the application thinks its talking to?
+                        An interactive command line program is going to assume when it writes
+                        bytes on standard out, they're going to end up at a terminal.
 
-				<section>
-					<h2>Slides</h2>
-					<p>
-						Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slides.com" target="_blank">http://slides.com</a>.
-					</p>
-				</section>
+                        Since we said this was a terminal emulator, what is it that we're emulating?
 
-				<section>
-					<h2>Point of View</h2>
-					<p>
-						Press <strong>ESC</strong> to enter the slide overview.
-					</p>
-					<p>
-						Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
-					</p>
-				</section>
+                        (The operating system is imporant here, I'm not talking about the Windows
+                        console.)
+                      </aside>
+                    </section>
+                      <!--TODO: add examples from more operating systems - include putty!-->
+                    <section data-background="terminals.png">
+                      <aside class="notes">
+                        These - video terminals. Applications would be written
+                        anticipating that the human user would be sitting in front
+                        of one of these. But video terminals were emulating something
+                        else originally...
+                      </aside>
+                      <!--TODO: Remove off-topic pictures -->
+                    </section>
+                    <section data-background="teletypes.png">
+                      <aside class="notes">
+                        Teleprinters or teletypewriters, or one of the brands...
 
-				<section>
-					<h2>Touch Optimized</h2>
-					<p>
-						Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
-					</p>
-				</section>
+                        Check out a youtube video of this stuff, they're
+                        mechanical marvels!
+                        These had been being used to send telegraphs for a long time
+                        (great 1940 video about how they work: https://www.youtube.com/watch?v=HcMHam54EOI)
+                      </aside>
+                    </section>
+                    <section data-background="teletypead2.png">
+                      <aside class="notes">
+                        Let's look at this great ad for a teletype machine.
+                      </aside>
+                    </section>
+                </section>
 
-				<section data-markdown>
-					<script type="text/template">
-						## Markdown support
+                <section>
+                    <section>
+                        <pre>
+fingers pressing keys---+   +-signal-over-metal-wire---> application
+                        |   |                              |
+                        |   |                              |
+                        V   |                              |
+    paper  <--ink----teletypewriter <--probably copper?----+
+                        </pre>
+                      <aside class="notes">
+                        The way teletypes worked lays the foundation for the way
+                        terminal emulators still work today.
 
-						Write content using inline or external Markdown.
-						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+                        A user types at a typewriter which both puts ink to
+                        paper immediately sends some kind of
+                        signal to the application (with some kernel stuff 
+                        happening in between)
 
-						```
-						<section data-markdown>
-						  ## Markdown support
+                        only need 5 bits for telegraph stuff, then ANSI made it 7 -
+                        who knows if you need a whole byte or not? Write a device driver
+                        that deals with whatever telegraph stuff was already in place
 
-						  Write content using inline or external Markdown.
-						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-						</section>
-						```
-					</script>
-				</section>
+                        The application sends back data that gets printed by the teletype.
 
-				<section>
-					<section id="fragments">
-						<h2>Fragments</h2>
-						<p>Hit the next arrow...</p>
-						<p class="fragment">... to step through ...</p>
-						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
+                        Once again, very interesting on YouTube videos! I'll link at the end.
+
+                        Next, let's look at the modernized version of our diagram...
+                      </aside>
+                    </section>
+                    <section>
+                        <pre>
+keyboard--keypresses---+   +--read, returns bytes)---> application
+                       |   |                             |
+                       |   |                             |
+                       V   |                             |
+   screen <--display--terminal <--write(bytes)-----------+
+                        </pre>
+                      <aside class="notes">
+                        "terminal" here means our terminal emulator.
+                        `read` and `write` are system calls - we call them
+                        on special files like standard in and out.
+                      </aside>
+                    </section>
+                    <section>
+                        <pre>
+keyboard--keypresses---+   +--------input()----------> application
+                       |   |                             |
+                       |   |                             |
+                       V   |                             |
+   screen <--display--terminal <-----print()-------------+
+                        </pre>
+                      <aside class="notes">
+                        Or as we call them in python, input and print.
+
+                        This is a simplified diagram - there's probably some stuff between the application and the signals.
+                        If it's so simplified, why do we need this intermediate step? Because keypresses also cause things
+                        to be displayed, and messages that are sent might result in other things than text being displayed.
+
+                        We'll look at input in a moment, but first let's look at what we can write to our terminal.
+                      </aside>
+                    </section>
+                  </section>
+                  <section>
+                    <section>
+                        <p>What bytes can we write and what happens?</p>
+                        <pre>
+                                                 application
+                                                      |
+                                                      |
+                                                      |
+        screen <--display--TERMINAL <--write(bytes)---+
+                        </pre>
+                    </section>
+                    <section>
+                        <h2>What bytes can we send?</h2>
+                        <ul>
+                            <li> ASCII bytes
+                                <ul class="fragment">
+                                  <li> <code>sys.stdout.buffer.write(b'some bytes')</code> </li>
+                                  <li class="fragment"> control characters (<code>'\a\n\r\v\b\f\t'</code>) </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section data-background="ascii.png">
+                      <aside class="notes">
+                      ASCII is a mapping of signals to meanings, when the signals getting sent on those metal wires
+                      were sort of standardized in the 60's.
+                      </aside>
+                    </section>
+                    <section data-background="ascii-normal.png"></section>
+                    <section data-background="ascii-control.png"></section>
+                    <section>
+                        <h2>What bytes can we send?</h2>
+                        <ul>
+                            <li> ASCII bytes
+                                <ul>
+                                    <li> <code>sys.stdout.buffer.write(b'some bytes')</code> </li>
+                                    <li> control characters (<code>'\a\n\r\v\b\f\t'</code>) </li>
+                                </ul>
+                        </ul>
+                    </section>
+                    <section>demo</section>
+                    <section>
+                        <h2>What bytes can we send?</h2>
+                        <ul>
+                            <li> ASCII bytes
+                                <ul>
+                                    <li> <code>sys.stdout.buffer.write(b'some bytes')</code> </li>
+                                    <li> control characters (<code>'\a\n\v\b\f\t'</code>) </li>
+                                </ul>
+                            <li class="fragment"> if terminal using an encoding, several bytes to make a character:
+                            <ul>
+                                <li class="fragment"> <code>sys.stdout.buffer.write(b'\xe2\x88\x82')</code> </li>
+                                <li class="fragment"> <code>sys.stdout.write(u'∂')</code> (via <code>.encoding</code>) </li>
+                            </ul></li>
+
+                            <li class="fragment"> ANSI escape sequences (<code>'\x1b[31m'</code>) </li>
+                        </ul>
+                      <aside class="notes">
+                        This stuff doesn't make sense with typewriters anymore.
+
+                        VT52 allowed cursor placement. In widespread use by the 80s.
+                        The VT100 was a big one. Applications would send these things to the terminal,
+                        so you wanted them to work.
+                      </aside>
+                    </section>
+                    <section data-background="terminals.png"></section>
+                    <section>
+                        <script type="text/javascript" src="https://asciinema.org/a/14808.js" id="asciicast-14808" data-size="small" data-autoplay async></script>
+                    <aside class="notes">
+                                    Prelude to the browser wars! Video terminals add features, and have to emulate all the other features.
+                                    BBS and MUD systems are the website analogues there.
+                    </aside>
+                    </section>
+                    <section>
+                        <h2>ANSI escape sequences</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Sequence</th>
+                                    <th>Meaning</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>\x1b[23A</code></td>
+                                    <td>move cursor 23 rows up</td>
+                                </tr>
+                                <tr>
+                                    <td><code>\x1b[2J</code></td>
+                                    <td>clear entire screen</td>
+                                </tr>
+                                <tr>
+                                    <td><code>\x1b[ ?25l</code></td>
+                                    <td>hide the cursor</td>
+                                </tr>
+                                <tr>
+                                    <td><code>\x1b[1m</code></td>
+                                    <td>start writing in bold</td>
+                                </tr>
+                                <tr>
+                                    <td><code>\x1b[31m</code></td>
+                                    <td>start writing in red</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <p>See <a href="http://en.wikipedia.org/wiki/ANSI_escape_code">Wikipedia entry on ANSI escape sequences</a> for more.</p>
 
 						<aside class="notes">
-							This slide has fragments which are also stepped through in the notes window.
+              This implies our terminals are a little smarter - they have state!
+              The terminal is put into "red" mode, and everything after that is red until it stops being red. There was state in the typewriters, but it was
+              just "how far to the right is the curtsor."
 						</aside>
-					</section>
-					<section>
-						<h2>Fragment Styles</h2>
-						<p>There's different types of fragments, like:</p>
-						<p class="fragment grow">grow</p>
-						<p class="fragment shrink">shrink</p>
-						<p class="fragment roll-in">roll-in</p>
-						<p class="fragment fade-out">fade-out</p>
-						<p class="fragment current-visible">current-visible</p>
-						<p class="fragment highlight-red">highlight-red</p>
-						<p class="fragment highlight-blue">highlight-blue</p>
-					</section>
-				</section>
+                    </section>
+                    <section>more demo</section>
+                    <section>
+                        <h2>What bytes can we send?</h2>
+                        <ul>
+                            <li> ASCII bytes
+                                <ul>
+                                    <li> <code>sys.stdout.buffer.write(b'some bytes')</code> </li>
+                                    <li> control characters (<code>'\a\n\v\b\f\t'</code>) </li>
+                                </ul>
+                            <li> if terminal using an encoding, several bytes to make a character:
+                            <ul>
+                                <li> <code>sys.stdout.buffer.write(b'\xe2\x88\x82')</code> </li>
+                                <li> <code>sys.stdout.write(u'∂')</code> (via <code>.encoding</code>) </li>
+                            </ul></li>
 
-				<section id="transitions">
-					<h2>Transition Styles</h2>
-					<p>
-						You can select from different transitions, like: <br>
-						<a href="?transition=none#/transitions">None</a> -
-						<a href="?transition=fade#/transitions">Fade</a> -
-						<a href="?transition=slide#/transitions">Slide</a> -
-						<a href="?transition=convex#/transitions">Convex</a> -
-						<a href="?transition=concave#/transitions">Concave</a> -
-						<a href="?transition=zoom#/transitions">Zoom</a>
-					</p>
-				</section>
-
-				<section id="themes">
-					<h2>Themes</h2>
-					<p>
-						reveal.js comes with a few themes built in: <br>
-						<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-					</p>
-				</section>
+                            <li> ANSI escape sequences (<code>'\x1b[31m'</code>) </li>
+                        </ul>
+                      <aside class="notes">
+                        So that's output for the most part.
+                      </aside>
+                    </section>
+                </section>
 
 				<section>
-					<section data-background="#dddddd">
-						<h2>Slide Backgrounds</h2>
-						<p>
-							Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
-						</p>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
-						<h2>Image Backgrounds</h2>
-						<pre><code>&lt;section data-background="image.png"&gt;</code></pre>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-						<h2>Tiled Backgrounds</h2>
-						<pre><code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
-					</section>
-					<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
-						<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-							<h2>Video Backgrounds</h2>
-							<pre><code style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
-						</div>
-					</section>
-				</section>
+                    <section>
+                        <p>What happens when the user types at the keyboard</p>
+                        <pre>
+          keyboard--keypresses---+   +--read(bytes)---> application
+                                 |   |
+                                 |   |
+                                 V   |
+             screen <--display--TERMINAL
+                        </pre>
+                    </section>
+                    <section>
+                      <p>What happens when the user types at the keyboard</p>
+                      <ul>
+                          <li class="fragment">buffering, line editing discipline</li>
+                          <ul>
+                              <li class="fragment">data not passed to application until the user hits return</li>
+                              <li class="fragment">backspace, delete word, reprint line, delete line - not much else</li>
+                              <li class="fragment">You can get this in python by messing up readline(;</li>
+                          </ul>
+                          <li class="fragment">echoing back characters</li>
+                      </ul>
+                      <aside class="notes">
+                        Terminal (or something on the wire between the terminal
+                        and the the application) doesn't give the bytes until
+                        the user hits enter.
 
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
-					</p>
-					<pre><code>Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
-				</section>
+                        line editing discipline - before the application gets
+                        the bytes, you can use delete! And delete word!
 
-				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						You can override background transitions per-slide.
-					</p>
-					<pre><code style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
-				</section>
+                        Echoing back characters - the terminal is doing this,
+                        just like a typewriter! But it doesn't have to.
+                        Modified diagram! We have knobs on the terminal
+                        emulator, and we adjust them with 
+                      </aside>
+                    </section>
+                    <section>
+                        <pre>
+keyboard--keypresses---+   +--------input()----------> application
+                       |   |                             |   |
+                       |   |                             |   |
+                       V   |                             |   |
+   screen <--display--terminal <-----print()-------------+   |
+                        ⚒                                    |
+                        +--------<--app can get and set-->---+
+                        </pre>
+                      <aside class="notes">
+                        We change this stuff with ioctrl, cbreak, raw, etc
 
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
+                        class of system calls for messings with this stuff
 
-    var nodes = document.querySelectorAll( selector );
+                        termios, ioctrl, fcntl
+                      </aside>
+                    </section>
+                    <section>
+                      Turning off echo
+                      <code>
+                      </code>
+                        There exist knobs for this! don't worry to much about what they are.
+                    </section>
+                    <section>
+                      <code>
+                        context manager
+                      </code>
+                      <aside class="notes">
+                        Excellent place for a context manager...
+                      </aside> 
+                    </section>
+                    <section>
+                      Using stty
+                      <code>
+                        $ stty -echo
+                        $ echo "echo is turned off"
+                        $ stty echo
+                      </code>
+                    </section>
+                    <section>
+                      <code>
+                        >>> import getpass
+                        >>> getpass.getpass()
+                        Password:
+                        >>> 'secret'
+                      </code>
+                    </section>
+                    <section>
+                      Turning off echo
+                      <code>
 
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
-
-      if( !node.className ) {
-        node.className += ' roll';
-      }
-    }
-  }
-}
-					</code></pre>
-					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-				</section>
-
-				<section>
-					<h2>Marvelous List</h2>
-					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-					</ul>
-				</section>
-
-				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
-				</section>
-
-				<section>
-					<h2>Tabular Tables</h2>
-					<table>
-						<thead>
-							<tr>
-								<th>Item</th>
-								<th>Value</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Apples</td>
-								<td>$1</td>
-								<td>7</td>
-							<tr>
-							<tr>
-								<td>Lemonade</td>
-								<td>$2</td>
-								<td>18</td>
-							<tr>
-							<tr>
-								<td>Bread</td>
-								<td>$3</td>
-								<td>2</td>
-							<tr>
-						</tbody>
-					</table>
-				</section>
-
-				<section>
-					<h2>Clever Quotes</h2>
-					<p>
-						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
-					</p>
-					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-					</blockquote>
-				</section>
-
-				<section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
-					</p>
-				</section>
-
-				<section>
-					<h2>Speaker View</h2>
-					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-					<p>Press the <em>S</em> key to try it out.</p>
-
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
-				</section>
+                      </code>
+                      context manager!
+                    </section>
+                    <section>
+                    Other similar things! Echo, etc.
+                    Use blessings instead.
+                  </section>
+                    <section>
+                      <p>What happens when the user types at the keyboard</p>
+                      <ul>
+                          <li>buffering, line editing discipline</li>
+                          <li><ul>
+                              <li>data not passed to application until the user hits return</li>
+                            'secret'  <li>backspace, delete word, reprint line, delete line - not much else</li>
+                              <li>You can get this in python by messing up readline(;</li>
+                           </ul></li>
+                          <li> echoing back characters</li>
+                          <li class="fragment">bytes sent without being typed (cursor query)</li>
+                      </ul>
+                    </section>
+                    <section>
+                    </section>
+                </section>
+                <section>
+                  <section>
+                    <p>How can the terminal notify the application?</p>
+                        <pre>
+                         +----------signals--------------+
+                         |                               V
+keyboard--keypresses---+ | +--------input()----------> application
+                       | | |                             |   |
+                       | | |                             |   |
+                       V | |                             |   |
+   screen <--display--terminal <-----print()-------------+   |
+                        ⚒                                    |
+                        +--------<--app can get and set-->---+
+                        </pre>
+                      <aside class="notes">
+                        The terminal can push things: window changes, suspend, etc.
+                        The behavior of these is set with our knobs.
+                      </aside>
+                  </section>
+                  <section>
+                      <p>What happens when the user types at the keyboard</p>
+                      <ul>
+                          <li class="fragment">signals sent to application</li>
+                      </ul>
+                  </section>
+                </section>
 
 				<section>
-					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
-					<iframe src="//www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-				</section>
-
+                    Other terminal things:
+                    Environmental variables. One way python guesses the encoding
+                    When you're in bash, $COLUMNS and $ROWS are available
+                    that struct in memory that has window size in it
+                    window size changed signal
+                </section>
 				<section>
-					<h2>Global State</h2>
-					<p>
-						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-						will be added as a class to the document element when the slide is open. This lets you
-						apply broader style changes, like switching the page background.
-					</p>
-				</section>
-
-				<section data-state="customevent">
-					<h2>State Events</h2>
-					<p>
-						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-					</p>
-					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
-				</section>
-
+                    heirarchy of when different sequences get added
+                    (tty, vt100, xterm, iterm)
+                </section>
 				<section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
-					</p>
-				</section>
-
+                    Bonus section: how scrollback buffer works, alternate screen, scroll regions, etc.
+                </section>
 				<section>
-					<h2>Much more</h2>
-					<ul>
-						<li>Right-to-left support</li>
-						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
-					</ul>
-				</section>
-
-				<section style="text-align: left;">
-					<h1>THE END</h1>
-					<p>
-						- <a href="http://slides.com">Try the online editor</a> <br>
-						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
-					</p>
-				</section>
-
+                    <h2>Compatibility Concerns</h2>
+                    <p> Now that you know *how* this works, that doesn't mean writing these escape sequences in your code is a good idea </p>
+                    <p> Curses, ncurses, terminfo, termcap, </p>
+                    <p> How to play with this in your terminal: use `tput`!</p>
+                </section>
+                <section>
+                    <h2>Tools</h2>
+                    <p>BUT I wouldn't use ncurses (import curses) in the Python stdlib either. Good as a compatibility layer, bad as an api</p>
+                    <ul>
+                        <li>Blessings - Eric Rose - see "Designing Poetic APIs" from last year</li>
+                        <li>x84, Blessed (soon included in blessings) - Jeff Quast</li>
+                        <li>Python Prompt Toolkit - Jonathan Slenders</li>
+                        <li>Urwid - Ian Ward - a few examples</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Random cool stuff</h2>
+                    <p>termcast</p>
+                    <p>bpython</p>
+                    <p>python terminal toolkit</p>
+                    <p> How to play with this in your terminal: use `tput`!</p>
+                </section>
+                <section>
+                    <h2>Further Reading:</h2>
+                    <ul>
+                        <li><a href="http://unix.stackexchange.com/questions/4126/what-is-the-exact-difference-between-a-terminal-a-shell-a-tty-and-a-con">Terminals, shells, tty, console</a></li>
+                        <li><a href="http://www.linusakesson.net/programming/tty/">The TTY Demystified</a></li>
+                        <li>http://utcc.utoronto.ca/~cks/space/blog/unix/TypingEOFEffects</li>
+                    </ul>
+                </section>
 			</div>
 
 		</div>

@@ -2747,6 +2747,13 @@
 					el.contentWindow.postMessage( '{"method":"play"}', '*' );
 				}
 			});
+
+      // Asciinema embeds
+      toArray( slide.querySelectorAll( 'iframe[src*="asciinema.org/api/asciicasts/"]' ) ).forEach( function( el ) {
+        if( el.hasAttribute( 'data-autoplay' ) ) {
+          el.contentWindow.postMessage( ['asciicast:play'], '*' );
+        }
+      });
 		}
 
 	}
