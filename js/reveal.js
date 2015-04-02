@@ -756,6 +756,10 @@
 			window.addEventListener( 'message', function ( event ) {
 				var data = event.data;
 
+        if( data[0] == "asciicast:size" ) {
+          return true;
+        }
+
 				// Make sure we're dealing with JSON
 				if( data.charAt( 0 ) === '{' && data.charAt( data.length - 1 ) === '}' ) {
 					data = JSON.parse( data );
@@ -2751,7 +2755,7 @@
       // Asciinema embeds
       toArray( slide.querySelectorAll( 'iframe[src*="asciinema.org/api/asciicasts/"]' ) ).forEach( function( el ) {
         if( el.hasAttribute( 'data-autoplay' ) ) {
-          el.contentWindow.postMessage( ['asciicast:play'], '*' );
+          el.contentWindow.postMessage('{"asciicast":"play"}', '*' );
         }
       });
 		}

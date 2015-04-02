@@ -44,10 +44,9 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
       <h1>Terminal Whispering</h1>
       <p>Do more than print text with your terminal</p>
       <p>
-      A PyCon preview! Which means it's not done yet(:
+      <small><a href="http://ballingt.com">Thomas Ballinger</a> | <a href="http://twitter.com/ballingt">@ballingt</a> | <a href="mailto:me@ballingt.com">me@ballingt.com</a> | <a href="https://www.recurse.com">tom@recurse.com</a></small>
       </p>
       <p>
-      <small><a href="http://ballingt.com">Thomas Ballinger</a> / <a href="http://twitter.com/ballingt">@ballingt</a></small>
       </p>
     </section>
 
@@ -68,16 +67,19 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
       <section data-background="single-terminal.png">
         <aside class="notes">
           When I say "terminal", I'm usually talking about a terminal emulator.
-          It pretends to be the thing an application thinks it's talking to.
+          I'm also lumping in things my kernal does in tandem with the terminal emulator.
+          I mean the thing that an application thinks it's talking to.
 
-          What is it that the application thinks its talking to?
+          You can see the little mac GUI stuff in this picture - 
+          I should mention that this talk is currently scoped just to unix terminals.
+          Some of it may apply to the Windows console.
+
           An interactive command line program is going to assume when it writes
           bytes on standard out, they're going to end up at a terminal.
+          Assume that reads on stdin are coming from a terminal.
 
-          Since we said this was a terminal emulator, what is it that we're emulating?
+          What is it that we're emulating?
 
-          (The operating system is imporant here, I'm not talking about the Windows
-          console.)
         </aside>
       </section>
       <!--TODO: add examples from more operating systems - include putty!-->
@@ -138,25 +140,27 @@ fingers pressing keys---+   +-signal-over-metal-wire---> application
       </section>
       <section>
         <pre>
-keyboard--keypresses---+   +--read, returns bytes)---> application
-                       |   |                             |
-                       |   |                             |
-                       V   |                             |
-   screen <--display--terminal <--write(bytes)-----------+
+ keyboard--keypresses---+   +--read() returns bytes----> application
+                        |   |                              |
+                        |   |                              |
+                        V   |                              |
+    screen <--display--terminal <--write(bytes)------------+
         </pre>
         <aside class="notes">
           "terminal" here means our terminal emulator.
           `read` and `write` are system calls - we call them
           on special files like standard in and out.
+
+          The application makes both of these calls.
         </aside>
       </section>
       <section>
         <pre>
-keyboard--keypresses---+   +--------input()----------> application
-                       |   |                             |
-                       |   |                             |
-                       V   |                             |
-   screen <--display--terminal <-----print()-------------+
+ keyboard--keypresses---+   +--------input()-----------> application
+                        |   |                              |
+                        |   |                              |
+                        V   |                              |
+    screen <--display--terminal <-----print()--------------+
         </pre>
         <aside class="notes">
           Or as we call them in python, input and print.
@@ -186,7 +190,7 @@ keyboard--keypresses---+   +--------input()----------> application
           <li> ASCII bytes
           <ul class="fragment">
             <li> <code>sys.stdout.buffer.write(b'some bytes')</code> </li>
-            <li class="fragment"> control characters (<code>'\a\n\r\v\b\f\t'</code>) </li>
+            <li class="fragment"> control characters (<code>[chr(x) for x in range(32)]</code> or <code>'\a\n\v\b\f\t'</code>) </li>
           </ul>
           </li>
         </ul>
@@ -195,6 +199,9 @@ keyboard--keypresses---+   +--------input()----------> application
         <aside class="notes">
           ASCII is a mapping of signals to meanings, when the signals getting sent on those metal wires
           were sort of standardized in the 60's.
+
+          Even though you only need 5 bits to get all the letters, now we'll splurge and use 7 bits(!)
+          Once you start using 8-bit bytes to store a character each, we have an extra one - but ASCII was before this.
         </aside>
       </section>
       <section data-background="ascii-normal.png"></section>
@@ -205,7 +212,7 @@ keyboard--keypresses---+   +--------input()----------> application
           <li> ASCII bytes
           <ul>
             <li> <code>sys.stdout.buffer.write(b'some bytes')</code> </li>
-            <li> control characters (<code>'\a\n\r\v\b\f\t'</code>) </li>
+            <li> control characters (<code>[chr(x) for x in range(32)]</code> or <code>'\a\n\v\b\f\t'</code>) </li>
           </ul>
         </ul>
       </section>
@@ -216,7 +223,7 @@ keyboard--keypresses---+   +--------input()----------> application
           <li> ASCII bytes
           <ul>
             <li> <code>sys.stdout.buffer.write(b'some bytes')</code> </li>
-            <li> control characters (<code>'\a\n\v\b\f\t'</code>) </li>
+            <li> control characters (<code>[chr(x) for x in range(32)]</code> or <code>'\a\n\v\b\f\t'</code>) </li>
           </ul>
           <li class="fragment"> if terminal using an encoding, several bytes to make a character:
           <ul>
@@ -236,7 +243,7 @@ keyboard--keypresses---+   +--------input()----------> application
       </section>
       <section data-background="terminals.png"></section>
       <section>
-        <script type="text/javascript" src="https://asciinema.org/a/14808.js" id="asciicast-14808" data-size="small" data-autoplay async></script>
+        <script type="text/javascript" src="https://asciinema.org/a/14808.js" id="asciicast-14808" data-size="medium" data-autoplay="true" async></script>
         <aside class="notes">
           Prelude to the browser wars! Video terminals add features, and have to emulate all the other features.
           BBS and MUD systems are the website analogues there.
@@ -290,7 +297,7 @@ keyboard--keypresses---+   +--------input()----------> application
           <li> ASCII bytes
           <ul>
             <li> <code>sys.stdout.buffer.write(b'some bytes')</code> </li>
-            <li> control characters (<code>'\a\n\v\b\f\t'</code>) </li>
+            <li> control characters (<code>[chr(x) for x in range(32)]</code> or <code>'\a\n\v\b\f\t'</code>) </li>
           </ul>
           <li> if terminal using an encoding, several bytes to make a character:
           <ul>
@@ -300,9 +307,55 @@ keyboard--keypresses---+   +--------input()----------> application
 
           <li> ANSI escape sequences (<code>'\x1b[31m'</code>) </li>
         </ul>
+      </section>
+      <section>
+        <h2>Compatibility Concerns</h2>
+        <p> Now that you know *how* this works, that doesn't mean writing these escape sequences in your code is a good idea </p>
+        <p> Curses, ncurses, terminfo, termcap, </p>
+        <p> How to play with this in your terminal: use `tput`!</p>
+      </section>
+      <section>
+        <pre><code>
+          tput clear
+          echo "hello world"
+          echo "Input please"
+          tput cuu1
+          tput cuu1
+          tput cuf1
+          tput cuf1
+          tput cuf1
+          tput cuf1
+          tput cuf1
+          tput cuf1
+          tput el
+          read akey
+          tput clear
+          echo Thanks
+        </code></pre>
+        code sample from http://aplawrence.com/Basics/tput_stty.html
         <aside class="notes">
-          So that's output for the most part.
+          BUT the ANSI escape sequences are mostly honored, but that's like being optimistic and using cool new JavaScript features even though they won't work on
+          all browsers. And there are other commands not in the ASCII spec that are like using new ecma script stuff. For browsers, there's a thing called jquery
+          which acts as a compatibility layer between web application code and browsers. 
+
+          Terminfo is what we use for this - it's a database of terminals, and it examines the terminal's $TERM value. In the shell you'd use tput
         </aside>
+      </section>
+      <section>
+        <h2>Tools</h2>
+        <ul>
+          <li>Blessings - Eric Rose - see "Designing Poetic APIs" from last year</li>
+          <li>x84, Blessed (soon included in blessings) - Jeff Quast</li>
+          <li>Urwid - Ian Ward - a few examples</li>
+          <li>Click - Armin Ronacher</li>
+          <li>Clint - Kenneth Reitz</li>
+          <li>Python Prompt Toolkit - Jonathan Slenders</li>
+        </ul>
+        <aside class="notes">
+        BUT I wouldn't use ncurses (import curses) in the Python stdlib either. Good as a compatibility layer, bad as an api.
+        Eric Rose gave a great talk last year called "designing poetic apis" in which he uses his Blessings library as an example.
+        </aside>
+        <!--TODO: Add analogous section to the input part! -->
       </section>
     </section>
 
@@ -314,7 +367,7 @@ keyboard--keypresses---+   +--------input()----------> application
                                  |   |
                                  |   |
                                  V   |
-             screen <--display--TERMINAL
+             screen <--display--TERMINAL (+ the kernel)
         </pre>
       </section>
       <section>
@@ -357,45 +410,91 @@ keyboard--keypresses---+   +--------input()----------> application
 
           class of system calls for messings with this stuff
 
-          termios, ioctrl, fcntl
         </aside>
       </section>
       <section>
-        Turning off echo
-        <code>
-        </code>
-        There exist knobs for this! don't worry to much about what they are.
-      </section>
-      <section>
-        <code>
-          context manager
-        </code>
+        <ul>
+          <li> termios </li>
+          <li> ioctrl </li>
+          <li> fcntl </li>
+          <li> cbreak </li>
+          <li> raw </li>
+        </ul>
         <aside class="notes">
-          Excellent place for a context manager...
-        </aside> 
+          We change this stuff with ioctrl, cbreak, raw, etc
+
+          class of system calls for messings with this stuff
+
+          I'll show a quick example that your eyes are welcome to glaze over for - because afterwards
+          I'll tell you to use a library for it.
+        </aside>
       </section>
       <section>
-        Using stty
-        <code>
-          $ stty -echo
-          $ echo "echo is turned off"
-          $ stty echo
-        </code>
-      </section>
-      <section>
-        <code>
+        <pre> <code class="python">
           >>> import getpass
           >>> getpass.getpass()
           Password:
           >>> 'secret'
-        </code>
+        </code> </pre>
       </section>
       <section>
         Turning off echo
-        <code>
+        <pre> <code>
+def getpass(prompt="Password: "):
+    import termios, sys
+    fd = sys.stdin.fileno()
+    old = termios.tcgetattr(fd)
+    new = termios.tcgetattr(fd)
+    new[3] = new[3] & ~termios.ECHO          # lflags
+    try:
+        termios.tcsetattr(fd, termios.TCSADRAIN, new)
+        passwd = raw_input(prompt)
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old)
+    return passwd
+        </code></pre>
+        from https://docs.python.org/2/library/termios.html
+      </section>
+      <section>
+        Using stty
+        <pre><code>
+          $ stty -echo
+          $ echo "echo is turned off"
+          $ stty echo
+        </code></pre>
+      </section>
+      <section>
+        <pre><code>
+import sys
+import termios
 
-        </code>
-        context manager!
+
+class NoEcho:
+    def __init__(self, in_stream):
+        self.stream = in_stream
+
+    def __enter__(self):
+        fd = self.stream.fileno()
+        self.original = termios.tcgetattr(fd)
+        new = termios.tcgetattr(fd)
+        new[3] = new[3] & ~termios.ECHO
+        termios.tcsetattr(fd, termios.TCSADRAIN, new)
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        termios.tcsetattr(self.stream.fileno(), termios.TCSADRAIN, self.original)
+
+
+with NoEcho(sys.stdin):
+    h = sys.stdin.readline()
+    print(h)
+
+        </code></pre>
+        <aside class="notes">
+        This is an excellent fit for a context manger, because this is state external to our
+        Python program - if we crash, we don't want the terminal to be unsuable by the user.
+
+        (tip: if it ever is, try "reset")
+        </aside>
       </section>
       <section>
         Other similar things! Echo, etc.
@@ -457,22 +556,6 @@ keyboard--keypresses---+ | +--------input()----------> application
     </section>
     <section>
       Bonus section: how scrollback buffer works, alternate screen, scroll regions, etc.
-    </section>
-    <section>
-      <h2>Compatibility Concerns</h2>
-      <p> Now that you know *how* this works, that doesn't mean writing these escape sequences in your code is a good idea </p>
-      <p> Curses, ncurses, terminfo, termcap, </p>
-      <p> How to play with this in your terminal: use `tput`!</p>
-    </section>
-    <section>
-      <h2>Tools</h2>
-      <p>BUT I wouldn't use ncurses (import curses) in the Python stdlib either. Good as a compatibility layer, bad as an api</p>
-      <ul>
-        <li>Blessings - Eric Rose - see "Designing Poetic APIs" from last year</li>
-        <li>x84, Blessed (soon included in blessings) - Jeff Quast</li>
-        <li>Python Prompt Toolkit - Jonathan Slenders</li>
-        <li>Urwid - Ian Ward - a few examples</li>
-      </ul>
     </section>
     <section>
       <h2>Random cool stuff</h2>
