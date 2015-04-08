@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 
-<title>reveal.js - The HTML Presentation Framework</title>
+<title>Terminal Whispering</title>
 
 <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
 <meta name="author" content="Hakim El Hattab">
@@ -46,8 +46,24 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
       <p>
       <small><a href="http://ballingt.com">Thomas Ballinger</a> | <a href="http://twitter.com/ballingt">@ballingt</a> | <a href="mailto:me@ballingt.com">me@ballingt.com</a> | <a href="https://www.recurse.com">tom@recurse.com</a></small>
       </p>
-      <p>
-      </p>
+    </section>
+    <section>
+      <section>
+      <h2>Terminals are cool</h2>
+      <p>wget</p>
+      <p>less</p>
+      <p>top</p>
+      <p>bpython</p>
+      <p>pudb</p>
+      <p>vim</p>
+      <p>telnet towel.blinkenlights.nl</p>
+        <aside class="notes">
+          Many of us use terminals daily - 
+        </aside>
+      </section>
+      <section data-background="tig.gif"></section>
+      <section data-background="pudb.gif"></section>
+      <section data-background="bpython-curtsies-demo-large.gif"></section>
     </section>
 
     <section>
@@ -61,7 +77,6 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
         <aside class="notes">
           Don't worry, you're not at the wrong talk
           that word has lots of meanings though
-          Wordcloud credit: https://www.jasondavies.com/wordcloud
         </aside>
       </section>
       <section data-background="single-terminal.png">
@@ -121,16 +136,48 @@ fingers pressing keys---+   +-signal-over-metal-wire---> application
         <aside class="notes">
           The way teletypes worked lays the foundation for the way
           terminal emulators still work today.
-
-          A user types at a typewriter which both puts ink to
-          paper immediately sends some kind of
-          signal to the application (with some kernel stuff 
-          happening in between)
-
-          only need 5 bits for telegraph stuff, then ANSI made it 7 -
+        </aside>
+      </section>
+      <section>
+        <pre>
+fingers pressing keys---+
+                        |
+                        |
+                        V
+    paper  <--ink----teletypewriter
+        </pre>
+        <aside class="notes">
+          A user types at an electronic typewriter which both puts ink to
+          paper immediately...
+        </aside>
+      </section>
+      <section>
+        <pre>
+fingers pressing keys---+   +-signal-over-metal-wire---> application
+                        |   |
+                        |   |
+                        V   |
+    paper  <--ink----teletypewriter
+       </pre>
+        <aside class="notes">
+          and also sends some kind of signal down a wire.
+          This could be only 5 bits for telegraph stuff
+          
+          
+          , then ANSI made it 7 -
           who knows if you need a whole byte or not? Write a device driver
           that deals with whatever telegraph stuff was already in place
-
+        </aside>
+      </section>
+      <section>
+        <pre>
+fingers pressing keys---+   +-signal-over-metal-wire---> application
+                        |   |                              |
+                        |   |                              |
+                        V   |                              |
+    paper  <--ink----teletypewriter <--probably copper?----+
+       </pre>
+        <aside class="notes">
           The application sends back data that gets printed by the teletype.
 
           Once again, very interesting on YouTube videos! I'll link at the end.
@@ -145,6 +192,7 @@ fingers pressing keys---+   +-signal-over-metal-wire---> application
                         |   |                              |
                         V   |                              |
     screen <--display--terminal <--write(bytes)------------+
+                      (+ kernel)
         </pre>
         <aside class="notes">
           "terminal" here means our terminal emulator.
@@ -181,7 +229,7 @@ fingers pressing keys---+   +-signal-over-metal-wire---> application
                                                       |
                                                       |
                                                       |
-        screen <--display--TERMINAL <--write(bytes)---+
+        screen <--display--terminal <--write(bytes)---+
         </pre>
       </section>
       <section>
@@ -190,7 +238,7 @@ fingers pressing keys---+   +-signal-over-metal-wire---> application
           <li> ASCII bytes
           <ul class="fragment">
             <li> <code>sys.stdout.buffer.write(b'some bytes')</code> </li>
-            <li class="fragment"> control characters (<code>[chr(x) for x in range(32)]</code> or <code>'\a\n\v\b\f\t'</code>) </li>
+            <li class="fragment"> control characters (<code>[chr(x) for x in range(32)]</code> or <code>'\a\n\r\v\b\f\t'</code>) </li>
           </ul>
           </li>
         </ul>
@@ -205,18 +253,27 @@ fingers pressing keys---+   +-signal-over-metal-wire---> application
         </aside>
       </section>
       <section data-background="ascii-normal.png"></section>
-      <section data-background="ascii-control.png"></section>
-      <section>
-        <h2>What bytes can we send?</h2>
-        <ul>
-          <li> ASCII bytes
-          <ul>
-            <li> <code>sys.stdout.buffer.write(b'some bytes')</code> </li>
-            <li> control characters (<code>[chr(x) for x in range(32)]</code> or <code>'\a\n\v\b\f\t'</code>) </li>
-          </ul>
-        </ul>
+      <section data-background="ascii-control.png">
+        <aside class="notes">
+        Control characters let us do special things... (demo!)
+        </aside>
       </section>
-      <section>demo</section>
+      <section data-background="wget.gif"> </section>
+      <section>
+        <pre><code>from __future__ import division
+import time
+import sys
+
+def report_progress(ratio, width=50):
+    complete = int(ratio * width)
+    sys.stderr.write('\r|{}{}|'.format('='*complete,
+                                       '-'*(width - complete)))
+    sys.stderr.flush()
+
+for i in range(101):
+    report_progress(i/100, 50)
+    time.sleep(.01) </code></pre>
+      </section>
       <section>
         <h2>What bytes can we send?</h2>
         <ul>
@@ -230,7 +287,6 @@ fingers pressing keys---+   +-signal-over-metal-wire---> application
             <li class="fragment"> <code>sys.stdout.buffer.write(b'\xe2\x88\x82')</code> </li>
             <li class="fragment"> <code>sys.stdout.write(u'∂')</code> (via <code>.encoding</code>) </li>
           </ul></li>
-
           <li class="fragment"> ANSI escape sequences (<code>'\x1b[31m'</code>) </li>
         </ul>
         <aside class="notes">
@@ -242,13 +298,6 @@ fingers pressing keys---+   +-signal-over-metal-wire---> application
         </aside>
       </section>
       <section data-background="terminals.png"></section>
-      <section>
-        <script type="text/javascript" src="https://asciinema.org/a/14808.js" id="asciicast-14808" data-size="medium" data-autoplay="true" async></script>
-        <aside class="notes">
-          Prelude to the browser wars! Video terminals add features, and have to emulate all the other features.
-          BBS and MUD systems are the website analogues there.
-        </aside>
-      </section>
       <section>
         <h2>ANSI escape sequences</h2>
         <table>
@@ -290,32 +339,28 @@ fingers pressing keys---+   +-signal-over-metal-wire---> application
           just "how far to the right is the curtsor."
         </aside>
       </section>
-      <section>more demo</section>
       <section>
-        <h2>What bytes can we send?</h2>
-        <ul>
-          <li> ASCII bytes
-          <ul>
-            <li> <code>sys.stdout.buffer.write(b'some bytes')</code> </li>
-            <li> control characters (<code>[chr(x) for x in range(32)]</code> or <code>'\a\n\v\b\f\t'</code>) </li>
-          </ul>
-          <li> if terminal using an encoding, several bytes to make a character:
-          <ul>
-            <li> <code>sys.stdout.buffer.write(b'\xe2\x88\x82')</code> </li>
-            <li> <code>sys.stdout.write(u'∂')</code> (via <code>.encoding</code>) </li>
-          </ul></li>
-
-          <li> ANSI escape sequences (<code>'\x1b[31m'</code>) </li>
-        </ul>
+        <script type="text/javascript" src="https://asciinema.org/a/14808.js" id="asciicast-14808" data-size="medium" async></script>
+        <aside class="notes">
+          Prelude to the browser wars! Video terminals add features, and have to emulate all the other features.
+          BBS and MUD systems are the website analogues there.
+        </aside>
       </section>
       <section>
         <h2>Compatibility Concerns</h2>
-        <p> Now that you know *how* this works, that doesn't mean writing these escape sequences in your code is a good idea </p>
-        <p> Curses, ncurses, terminfo, termcap, </p>
-        <p> How to play with this in your terminal: use `tput`!</p>
+        <p> having escape sequences in your code isn't great idea </p>
+        <p> Curses, ncurses, terminfo, termcap</p>
+        <p><code>tput</code></p>
+        <aside class="notes">
+          BUT the ANSI escape sequences are mostly honored, but that's like being optimistic and using cool new JavaScript features even though they won't work on
+          all browsers. And there are other commands not in the ASCII spec that are like using new ecma script stuff. For browsers, there's a thing called jquery
+          which acts as a compatibility layer between web application code and browsers. 
+
+          Terminfo is what we use for this - it's a database of terminals, and it examines the terminal's $TERM value. In the shell you'd use tput...
+        </aside>
       </section>
       <section>
-        <pre><code>
+        <pre><code class="bash">
           tput clear
           echo "hello world"
           echo "Input please"
@@ -332,30 +377,32 @@ fingers pressing keys---+   +-signal-over-metal-wire---> application
           tput clear
           echo Thanks
         </code></pre>
-        code sample from http://aplawrence.com/Basics/tput_stty.html
-        <aside class="notes">
-          BUT the ANSI escape sequences are mostly honored, but that's like being optimistic and using cool new JavaScript features even though they won't work on
-          all browsers. And there are other commands not in the ASCII spec that are like using new ecma script stuff. For browsers, there's a thing called jquery
-          which acts as a compatibility layer between web application code and browsers. 
-
-          Terminfo is what we use for this - it's a database of terminals, and it examines the terminal's $TERM value. In the shell you'd use tput
-        </aside>
+        <small>code sample from http://aplawrence.com/Basics/tput_stty.html</small>
       </section>
       <section>
-        <h2>Tools</h2>
         <ul>
           <li>Blessings - Eric Rose - see "Designing Poetic APIs" from last year</li>
-          <li>x84, Blessed (soon included in blessings) - Jeff Quast</li>
-          <li>Urwid - Ian Ward - a few examples</li>
-          <li>Click - Armin Ronacher</li>
-          <li>Clint - Kenneth Reitz</li>
-          <li>Python Prompt Toolkit - Jonathan Slenders</li>
         </ul>
+        <pre><code>
+from blessings import Terminal
+
+t = Terminal()
+
+print t.bold('Hi there!')
+print t.bold_red_on_bright_green('It hurts my eyes!')
+
+with t.location(0, t.height - 1):
+    print 'This is at the bottom.'
+        </code></pre>
         <aside class="notes">
         BUT I wouldn't use ncurses (import curses) in the Python stdlib either. Good as a compatibility layer, bad as an api.
         Eric Rose gave a great talk last year called "designing poetic apis" in which he uses his Blessings library as an example.
+
+        There are at least two reasons to use jquery: you like the abstractions it gives you, and compatibility.
+        In my experience, the compatibility is less important because the ASCII standard mostly took hold.
+        But it's still nicer than hardcoding, and it's definitely. Now that you know these are just bytes you're
+        still responsible for writing to the terminal, you're prepared to using Blessings!
         </aside>
-        <!--TODO: Add analogous section to the input part! -->
       </section>
     </section>
 
@@ -377,7 +424,7 @@ fingers pressing keys---+   +-signal-over-metal-wire---> application
           <ul>
             <li class="fragment">data not passed to application until the user hits return</li>
             <li class="fragment">backspace, delete word, reprint line, delete line - not much else</li>
-            <li class="fragment">You can get this in python by messing up readline(;</li>
+            <li class="fragment">(try cat to see this behavior)</li>
           </ul>
           <li class="fragment">echoing back characters</li>
         </ul>
@@ -430,15 +477,24 @@ keyboard--keypresses---+   +--------input()----------> application
         </aside>
       </section>
       <section>
+        Turning off echo in Python
         <pre> <code class="python">
           >>> import getpass
           >>> getpass.getpass()
           Password:
-          >>> 'secret'
+          'secret'
         </code> </pre>
       </section>
       <section>
-        Turning off echo
+        Turning off echo, using stty
+        <pre><code>
+          $ stty -echo
+          $ echo "echo is turned off"
+          $ stty echo
+        </code></pre>
+      </section>
+      <section>
+        Turning off echo in Python
         <pre> <code>
 def getpass(prompt="Password: "):
     import termios, sys
@@ -456,34 +512,25 @@ def getpass(prompt="Password: "):
         from https://docs.python.org/2/library/termios.html
       </section>
       <section>
-        Using stty
         <pre><code>
-          $ stty -echo
-          $ echo "echo is turned off"
-          $ stty echo
-        </code></pre>
-      </section>
-      <section>
-        <pre><code>
-import sys
-import termios
-
+import sys, termios
 
 class NoEcho:
     def __init__(self, in_stream):
-        self.stream = in_stream
+        self.fd = in_stream.fileno()
 
     def __enter__(self):
-        fd = self.stream.fileno()
-        self.original = termios.tcgetattr(fd)
-        new = termios.tcgetattr(fd)
+        self.orig = termios.tcgetattr(self.fd)
+        new = termios.tcgetattr(self.fd)
         new[3] = new[3] & ~termios.ECHO
         termios.tcsetattr(fd, termios.TCSADRAIN, new)
 
     def __exit__(self, exc_type, exc_value, traceback):
-        termios.tcsetattr(self.stream.fileno(), termios.TCSADRAIN, self.original)
-
-
+        termios.tcsetattr(self.fd), termios.TCSADRAIN, self.orig)
+        </code></pre>
+      </section>
+      <section>
+        <pre><code>
 with NoEcho(sys.stdin):
     h = sys.stdin.readline()
     print(h)
@@ -497,8 +544,18 @@ with NoEcho(sys.stdin):
         </aside>
       </section>
       <section>
-        Other similar things! Echo, etc.
         Use blessings instead.
+      </section>
+      <section>
+        <ul>
+          <li>turn off echo</li>
+          <li>nonblocking input</li>
+          <li>current terminal size</li>
+          <li>send keys immediately (don't wait for enter)</li>
+        </ul>
+        <aside class="notes">
+          Unclear which of these are part of blessings right now, since Blessed was just merged with it.
+        </aside>
       </section>
       <section>
         <p>What happens when the user types at the keyboard</p>
@@ -507,13 +564,39 @@ with NoEcho(sys.stdin):
           <li><ul>
             <li>data not passed to application until the user hits return</li>
             'secret'  <li>backspace, delete word, reprint line, delete line - not much else</li>
-            <li>You can get this in python by messing up readline(;</li>
+            <li>to see this, try cat (it doesn't use readline)</li>
           </ul></li>
           <li> echoing back characters</li>
           <li class="fragment">bytes sent without being typed (cursor query)</li>
         </ul>
       </section>
       <section>
+        <p> You probably don't need this </p>
+        <p> My library Curtsies implements it </p>
+        <aside class="notes">
+          There are ways to save the cursor postion - BUT if you do, 
+        </aside>
+      </section>
+      <section>
+        <pre>
+ keyboard--keypresses---+   +--------input()-----------> application
+                        |   |                              |
+                        |   |                              |
+                        V   |                              |
+    screen <--display--terminal <-----print()--------------+
+        </pre>
+        <code>>>> print("\x1b[6n")</code>
+        <aside class="notes">
+        Particularly interesting because writing bytes doesn't do anything
+        to the display, we just get some informative bytes back the next time
+        we call read!
+
+        Important to do this in unbuffered mode, otherwise they'll just show
+        up on the terminal line as though the user typed them.
+
+        Try it!
+        </aside>
+
       </section>
     </section>
     <section>
@@ -542,34 +625,54 @@ keyboard--keypresses---+ | +--------input()----------> application
         </ul>
       </section>
     </section>
-
     <section>
-      Other terminal things:
-      Environmental variables. One way python guesses the encoding
+      <h2>Tools</h2>
+      <ul>
+        <li>Blessings - Eric Rose - see "Designing Poetic APIs" from last year</li>
+        <li>x84, Blessed (soon included in blessings) - Jeff Quast</li>
+        <li>Urwid - Ian Ward - a few examples</li>
+        <li>Click - Armin Ronacher</li>
+        <li>Clint - Kenneth Reitz</li>
+        <li>Python Prompt Toolkit - Jonathan Slenders</li>
+        <li>Curtsies - Tom Ballinger</li>
+      </ul>
+        <aside class="notes">
+          Well, we're usually talking about terminal emulators
+        </aside>
+    </section>
+    <!--TODO: 
+    <section>
+      Relevant environmental variables. One way python guesses the encoding
       When you're in bash, $COLUMNS and $ROWS are available
       that struct in memory that has window size in it
       window size changed signal
     </section>
+    add examples from more operating systems - include putty!-->
     <section>
-      heirarchy of when different sequences get added
-      (tty, vt100, xterm, iterm)
-    </section>
-    <section>
-      Bonus section: how scrollback buffer works, alternate screen, scroll regions, etc.
+      Other topics:
+      scrollback buffer works, alternate screen, scroll regions, 
     </section>
     <section>
       <h2>Random cool stuff</h2>
       <p>termcast</p>
-      <p>bpython</p>
-      <p>python terminal toolkit</p>
-      <p> How to play with this in your terminal: use `tput`!</p>
+      <p>telnet towel.blinkenlights.nl</p>
     </section>
     <section>
       <h2>Further Reading:</h2>
       <ul>
         <li><a href="http://unix.stackexchange.com/questions/4126/what-is-the-exact-difference-between-a-terminal-a-shell-a-tty-and-a-con">Terminals, shells, tty, console</a></li>
         <li><a href="http://www.linusakesson.net/programming/tty/">The TTY Demystified</a></li>
+      </ul>
+      <h2>Fun Videos</h2>
+      <ul>
         <li>http://utcc.utoronto.ca/~cks/space/blog/unix/TypingEOFEffects</li>
+        <li><a href="https://www.youtube.com/watch?v=qv5b1Xowxdk&feature=youtu.be&t=372">Loading 4K BASIC with a Teletype</a></li>
+        <li><a href="https://www.youtube.com/watch?v=DFMQ1qT_RFM">Teletype Model 35ASR</a></li>
+        <li><a href="https://www.youtube.com/watch?v=HcMHam54EOI">How The Teleprinter Works- 1940</a></li>
+      </ul>
+      <h2>Image credits</h2>
+      <ul>
+        <li>Wordcloud credit: https://www.jasondavies.com/wordcloud</li>
       </ul>
     </section>
   </div>
@@ -590,6 +693,7 @@ history: true,
 center: true,
 
 transition: 'slide', // none/fade/slide/convex/concave/zoom
+backgroundTransition: 'none', // none/fade/slide/convex/concave/zoom
 
 // Optional reveal.js plugins
 dependencies: [

@@ -984,6 +984,16 @@ body {
   opacity: 1;
   visibility: visible; }
 
+.fulliframediv {
+  width: 100%;
+  height: 100%;
+}
+
+.fulliframe {
+  width: 100%;
+  height: 100%;
+}
+
 .reveal .overlay.overlay-preview.loaded .spinner {
   opacity: 0;
   visibility: hidden;

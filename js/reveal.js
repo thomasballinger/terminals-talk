@@ -2755,9 +2755,28 @@
       // Asciinema embeds
       toArray( slide.querySelectorAll( 'iframe[src*="asciinema.org/api/asciicasts/"]' ) ).forEach( function( el ) {
         if( el.hasAttribute( 'data-autoplay' ) ) {
-          el.contentWindow.postMessage('{"asciicast":"play"}', '*' );
+          //el.contentWindow.postMessage('{"asciicast":"play"}', '*' );
+          el.contentWindow.postMessage(['asciicast:play'], '*');
         }
       });
+
+      // Reload gifs with a different query string to make them start over
+      if (slide.dataset.background !== undefined){
+        var i = slide.dataset.background.indexOf('.gif');
+        console.log(slide.dataset.background);
+        if (i > -1){
+          var indices = getIndices( slide );
+          console.log(indices);
+          var background = getSlideBackground( indices.h, indices.v );
+          if( background ) {
+            if( background.hasAttribute( 'data-loaded' ) === true ) {
+              background.removeAttribute( 'data-loaded');
+            }
+          }
+          var path = slide.dataset.background.slice(0, i) + '.gif'
+          slide.dataset.backgroundImage = path + '?x='+Math.random();
+        }
+      }
 		}
 
 	}
